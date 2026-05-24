@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { getAllPosts } from "@/lib/posts";
-import { Button } from "@/components/ui/button";
+import { buttonVariants } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
 
 export default function HomePage() {
   const posts = getAllPosts();
