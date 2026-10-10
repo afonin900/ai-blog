@@ -13,6 +13,10 @@ export function postUrl(slug: string): string {
   return `${SITE_URL}/blog/${slug}`;
 }
 
+export function postCanonical(post: PostMeta): string {
+  return post.canonical ?? postUrl(post.slug);
+}
+
 export function buildArticleJsonLd(post: PostMeta) {
   return {
     "@context": "https://schema.org",
@@ -21,20 +25,19 @@ export function buildArticleJsonLd(post: PostMeta) {
     description: post.description,
     datePublished: post.date,
     dateModified: post.date,
-    url: postUrl(post.slug),
+    url: postCanonical(post),
     author: {
       "@type": "Person",
-      name: post.author ?? SITE_NAME,
+      name: post.author,
     },
     publisher: {
       "@type": "Organization",
       name: SITE_NAME,
       url: SITE_URL,
     },
-    ...(post.image && { image: post.image }),
     mainEntityOfPage: {
       "@type": "WebPage",
-      "@id": postUrl(post.slug),
+      "@id": postCanonical(post),
     },
   };
 }
